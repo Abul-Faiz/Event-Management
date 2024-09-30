@@ -6,27 +6,27 @@ const validate = require("../middleware/validate");
 const { eventSchema } = require("../validation/event.validate");
 
 router.post(
-  "/create-Event",
+  "/createEvent",
   authguard(["ADMIN"]),
   validate(eventSchema),
   eventController.createEvent
 );
 router.post(
-  "/join-Event",
+  "/joinEvent",
   authguard(["USER", "ADMIN"]),
   eventController.joinEvent
 );
 router.get(
-  "/eventList-User/:id",
+  "/eventListUser/:id",
   authguard(["ADMIN"]),
   eventController.getUserEvents
 );
 router.put(
-  "/cancel-Event",
+  "/cancelEvent",
   authguard(["USER", "ADMIN"]),
   validate(eventSchema),
   eventController.cancelEvent
 );
-router.get("/getAll-User", authguard(["ADMIN"]), eventController.getAllUser);
+router.get("/getAllUser", authguard(["ADMIN"]), eventController.getAllUser);
 
 module.exports = router;
