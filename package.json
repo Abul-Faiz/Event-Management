@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.4",
+    "nodemon": "^3.1.4",
+    "path": "^0.12.7",
+    "swagger-autogen": "^2.23.7",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Creating a basic portfolio website ",
+  "main": "lib.js",
+  "scripts": {
+    "start": "node ./src/docs/swagger.js & node lib.js",
+    "dev": "node ./src/docs/swagger.js & nodemon lib.js"
+  },
+  "author": "Abul Faiz",
+  "license": "ISC"
+}
