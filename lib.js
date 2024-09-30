@@ -13,6 +13,14 @@ dotenv.config();
 app.use(userRoutes)
 app.use(eventRoutes)
 
+app.get('/health', ConnectionStringVerification, (req, res) => {
+  res.status(200).json({
+    joke: 'OK',
+    chuckle:
+      "I'm healthier than a fitness app's server on New Year's Day! 🎉💪",
+  });
+});
+
 databaseConnection()
 .then(() => {
   app.listen(process.env.PORT, () => {
