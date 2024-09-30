@@ -5,6 +5,7 @@ const { databaseConnection } = require("./src/config/database");
 const userRoutes = require("./src/router/user.route");
 const eventRoutes = require('./src/router/event.route')
 const swaggerUi = require("swagger-ui-express");
+const {ConnectionStringVerification} = require('./src/config/database')
 const swaggerDocs = require("./src/docs/swagger-output.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(express.json());
