@@ -65,6 +65,16 @@
                 "role": {
                   "type": "string",
                   "example": "ADMIN"
+                },
+                "favoriteGenres": {
+                  "type": "array",
+                  "example": [
+                    "Action",
+                    "Sci-Fi"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
                 }
               }
             }
@@ -118,33 +128,24 @@
         }
       }
     },
-    "/create-Event": {
+    "/requestPassword": {
       "post": {
         "tags": [
-          "Event"
+          "Authentication"
         ],
-        "summary": "create events",
+        "summary": "Password request API via Email",
         "description": "",
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
             "name": "body",
             "in": "body",
-            "description": "Event object",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
-                "eventName": {
+                "email": {
                   "type": "string",
-                  "example": "Event Management"
-                },
-                "description": {
-                  "type": "string",
-                  "example": "A small mini project with proper base setup"
+                  "example": "abulfaiz428@gmail.com"
                 }
               }
             }
@@ -153,152 +154,41 @@
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
           }
         }
       }
     },
-    "/join-Event": {
+    "/resetPassword": {
       "post": {
         "tags": [
-          "Event"
+          "Authentication"
         ],
-        "summary": "Join event",
+        "summary": "Reset password API",
         "description": "",
         "parameters": [
           {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "eventId",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "userId",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/eventList-User/{id}": {
-      "get": {
-        "tags": [
-          "Event"
-        ],
-        "summary": "Fetch user past, current, and future events API",
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
+            "name": "body",
+            "in": "body",
+            "description": "User or Admin can reset password here",
             "required": true,
-            "type": "string"
-          },
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "newPassword": {
+                  "type": "string",
+                  "example": "Login@123#"
+                }
+              }
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "OK"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/cancel-Event": {
-      "put": {
-        "tags": [
-          "Event"
-        ],
-        "summary": "cancel event API",
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "eventId",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "userId",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/getAll-User": {
-      "get": {
-        "tags": [
-          "Event"
-        ],
-        "summary": "get all user API",
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
           }
         }
       }

@@ -15,33 +15,33 @@ function verifyToken(token) {
   }
 }
 
-// function getTokenExpiry(token) {
-//   try {
-//     const decoded = verifyToken(token);
-//     return decoded.exp;
-//   } catch (error) {
-//     throw new Error("Error retrieving token expiry date");
-//   }
-// }
+function getTokenExpiry(token) {
+  try {
+    const decoded = verifyToken(token);
+    return decoded.exp;
+  } catch (error) {
+    throw new Error("Error retrieving token expiry date");
+  }
+}
 
-// function refreshToken(token) {
-//   try {
-//     const decoded = verifyToken(token);
-//     delete decoded.exp;
-//     delete decoded.iat;
-//     const newToken = createToken(decoded);
-//     return {
-//       token: newToken,
-//       expiresIn: getTokenExpiry(newToken),
-//     };
-//   } catch (error) {
-//     throw new Error("Error refreshing token");
-//   }
-// }
+function refreshToken(token) {
+  try {
+    const decoded = verifyToken(token);
+    delete decoded.exp;
+    delete decoded.iat;
+    const newToken = createToken(decoded);
+    return {
+      token: newToken,
+      expiresIn: getTokenExpiry(newToken),
+    };
+  } catch (error) {
+    throw new Error("Error refreshing token");
+  }
+}
 
 module.exports = {
   createToken,
   verifyToken,
-//  getTokenExpiry,
-//  refreshToken,
+ getTokenExpiry,
+ refreshToken,
 };

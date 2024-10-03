@@ -18,9 +18,17 @@ const signupSchema = Joi.object({
     "string.min": "Password must be at least 6 characters long",
     "any.required": "password is required",
   }),
+  profilePicture: Joi.string().allow().messages({
+    "string.base": `profilePicture must be a string`,
+    "string.empty": "password cannot be empty",
+  }),
+  favoriteGenres: Joi.array().items(Joi.string()).optional().messages({
+    "array.base": `favoriteGenres must be an array`,
+    "array.empty": `favoriteGenres cannot be empty`,
+  }),
   role: Joi.string()
     .valid("ADMIN", "USER")
-    .required()
+    .allow()
     .default("USER")
     .messages({
       "any.only": "Role must be either ADMIN or USER",
