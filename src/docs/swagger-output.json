@@ -34,18 +34,77 @@
     "application/json"
   ],
   "paths": {
-    "/signUp": {
-      "post": {
+    "/getAllUser": {
+      "get": {
         "tags": [
-          "Authentication"
+          "Profile"
         ],
-        "summary": "SignUp API",
+        "summary": "Get all users",
         "description": "",
         "parameters": [
           {
+            "name": "pageNumber",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/getById/{userId}": {
+      "get": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "Get by Id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/userUpdate/{userId}": {
+      "put": {
+        "tags": [
+          "Profile"
+        ],
+        "summary": "profile update API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
-            "description": "user or admin can signUp here",
+            "description": "user can update their profile here",
             "required": true,
             "schema": {
               "type": "object",
@@ -90,100 +149,19 @@
         }
       }
     },
-    "/login": {
-      "post": {
+    "/deleteUser/{userId}": {
+      "delete": {
         "tags": [
-          "Authentication"
+          "Profile"
         ],
-        "summary": "Login API",
+        "summary": "Delete user API",
         "description": "",
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "description": "User or Admin can login here",
+            "name": "userId",
+            "in": "path",
             "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "example": "jay@gmail.com"
-                },
-                "password": {
-                  "type": "string",
-                  "example": "Login@123"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
-        }
-      }
-    },
-    "/requestPassword": {
-      "post": {
-        "tags": [
-          "Authentication"
-        ],
-        "summary": "Password request API via Email",
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "email": {
-                  "type": "string",
-                  "example": "abulfaiz428@gmail.com"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/resetPassword": {
-      "post": {
-        "tags": [
-          "Authentication"
-        ],
-        "summary": "Reset password API",
-        "description": "",
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "description": "User or Admin can reset password here",
-            "required": true,
-            "schema": {
-              "type": "object",
-              "properties": {
-                "token": {
-                  "type": "string",
-                  "example": "any"
-                },
-                "newPassword": {
-                  "type": "string",
-                  "example": "Login@123#"
-                }
-              }
-            }
+            "type": "string"
           }
         ],
         "responses": {
