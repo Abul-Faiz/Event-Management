@@ -17,9 +17,9 @@
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },
-  "name": "portfolio",
+  "name": "Book Club Platform",
   "version": "1.0.0",
-  "description": "Creating a basic portfolio website ",
+  "description": "Implement signup, login, and logout with JWT authentication.Users can create and update their profiles, including a profile picture, bio, favorite genres, and currently reading books.",
   "main": "lib.js",
   "engines": {
     "node": "20.x"
