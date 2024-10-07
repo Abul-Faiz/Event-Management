@@ -6,7 +6,6 @@ const { response } = require("../helper/response.helper");
 const { errorHandler } = require("../helper/errorHandler.helper");
 const { createToken, verifyToken, getTokenExpiry } = require("../utils/jwt");
 const { sendPasswordResetEmail } = require("../utils/email");
-const bcrypt = require('bcrypt')
 
 async function signUp(reqData) {
   try {
@@ -62,9 +61,10 @@ async function requestPassword(email) {
     }
     const resetToken = createToken({ id: user._id });
     const expiryTime = getTokenExpiry(resetToken);
-    console.log("Token expires at:", expiryTime);
     await sendPasswordResetEmail(user, resetToken);
-    return response(responseEnum.passwordToken, statusCodeEnum.HTTP_OK);
+    return response(responseEnum.passwordToken, statusCodeEnum.HTTP_OK, {
+      message: expiryTime,
+    });
   } catch (error) {
     return errorHandler(error);
   }
@@ -75,17 +75,16 @@ async function reset(token, newPassword) {
     const decode = verifyToken(token);
     const expiryTime = getTokenExpiry(token);
     const user = await User.findById(decode._id);
-    console.log(user,'<<<<<<<<<<<<<<<<<<<<<<<<<<')
     if (!user) {
       return response(responseEnum.DataNotFound, statusCodeEnum.HTTP_NOT_FOUND);
     }
-    user.password = await bcrypt.hash(newPassword, 10);
+    user.password = newPassword;
     await user.save();
     return response(
       responseEnum.Saved,
       statusCodeEnum.HTTP_OK,
       responseEnum.Success,
-      {expiredAT : expiryTime}
+      { expiredAT: expiryTime }
     );
   } catch (error) {
     return errorHandler(error);
