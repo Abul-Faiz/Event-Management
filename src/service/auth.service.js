@@ -6,7 +6,7 @@ const { response } = require("../helper/response.helper");
 const { errorHandler } = require("../helper/errorHandler.helper");
 const { createToken, verifyToken, getTokenExpiry } = require("../utils/jwt");
 const { sendPasswordResetEmail } = require("../utils/email");
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcryptjs')
 
 async function signUp(reqData) {
   try {
