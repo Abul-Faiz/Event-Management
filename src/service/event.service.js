@@ -71,97 +71,97 @@ async function eventJoin(eventId, userId) {
   }
 }
 
-async function latestEvents(userId) {
-  try {
-    const objectId = new mongoose.Types.ObjectId(userId);
-    const events = await UserEvent.aggregate([
-      {
-        $match: { userId: objectId },
-      },
-      {
-        $lookup: {
-          from: "events",
-          localField: "eventId",
-          foreignField: "_id",
-          as: "eventDetails",
-        },
-      },
-      { $unwind: "$eventDetails" },
-      {
-        $facet: {
-          past: [
-            { $match: { "eventDetails.endTime": { $lt: now } } },
-            { $sort: { "eventDetails.endTime": -1 } },
-          ],
-          present: [
-            {
-              $match: {
-                "eventDetails.startTime": { $lte: now },
-                "eventDetails.endTime": { $gte: now },
-              },
-            },
-            { $sort: { "eventDetails.startTime": -1 } },
-          ],
-          future: [
-            { $match: { "eventDetails.startTime": { $gt: now } } },
-            { $sort: { "eventDetails.startTime": -1 } },
-          ],
-        },
-      },
-    ]);
-    return response(responseEnum.Success, statusCodeEnum.HTTP_OK, events);
-  } catch (error) {
-    return errorHandler(error);
-  }
-}
+// async function latestEvents(userId) {
+//   try {
+//     const objectId = new mongoose.Types.ObjectId(userId);
+//     const events = await UserEvent.aggregate([
+//       {
+//         $match: { userId: objectId },
+//       },
+//       {
+//         $lookup: {
+//           from: "events",
+//           localField: "eventId",
+//           foreignField: "_id",
+//           as: "eventDetails",
+//         },
+//       },
+//       { $unwind: "$eventDetails" },
+//       {
+//         $facet: {
+//           past: [
+//             { $match: { "eventDetails.endTime": { $lt: now } } },
+//             { $sort: { "eventDetails.endTime": -1 } },
+//           ],
+//           present: [
+//             {
+//               $match: {
+//                 "eventDetails.startTime": { $lte: now },
+//                 "eventDetails.endTime": { $gte: now },
+//               },
+//             },
+//             { $sort: { "eventDetails.startTime": -1 } },
+//           ],
+//           future: [
+//             { $match: { "eventDetails.startTime": { $gt: now } } },
+//             { $sort: { "eventDetails.startTime": -1 } },
+//           ],
+//         },
+//       },
+//     ]);
+//     return response(responseEnum.Success, statusCodeEnum.HTTP_OK, events);
+//   } catch (error) {
+//     return errorHandler(error);
+//   }
+// }
 
-async function eventCancel(eventId, userId) {
-  try {
-    const event = await Event.findById(eventId);
-    if (!event) {
-      return response(
-        responseEnum.Error,
-        statusCodeEnum.HTTP_NOT_FOUND,
-        responseEnum.NotFound
-      );
-    }
-    const eventStartTime = new Date(event.startTime);
-    const timeDiffer = eventStartTime - now;
-    const eightHours = 8 * 60 * 60 * 1000;
-    if (timeDiffer <= 0) {
-      return response(
-        responseEnum.Error,
-        statusCodeEnum.HTTP_METHOD_NOT_ALLOWED,
-        "Cannot cancel the event as it has already started or finished."
-      );
-    } else if (timeDiffer < eightHours) {
-      return response(
-        responseEnum.Error,
-        statusCodeEnum.HTTP_METHOD_NOT_ALLOWED,
-        "Cannot cancel the event as it starts in less than 8 hours."
-      );
-    }
-    const userEvent = await UserEvent.findOneAndUpdate(
-      { eventId, userId },
-      { status: "canceled" },
-      { new: true }
-    );
-    if (!userEvent) {
-      return response(
-        responseEnum.Error,
-        statusCodeEnum.HTTP_NOT_FOUND,
-        responseEnum.NotFound
-      );
-    }
-    return response(
-      responseEnum.Success,
-      statusCodeEnum.HTTP_OK,
-      responseEnum.Deleted
-    );
-  } catch (error) {
-    return errorHandler(error);
-  }
-}
+// async function eventCancel(eventId, userId) {
+//   try {
+//     const event = await Event.findById(eventId);
+//     if (!event) {
+//       return response(
+//         responseEnum.Error,
+//         statusCodeEnum.HTTP_NOT_FOUND,
+//         responseEnum.NotFound
+//       );
+//     }
+//     const eventStartTime = new Date(event.startTime);
+//     const timeDiffer = eventStartTime - now;
+//     const eightHours = 8 * 60 * 60 * 1000;
+//     if (timeDiffer <= 0) {
+//       return response(
+//         responseEnum.Error,
+//         statusCodeEnum.HTTP_METHOD_NOT_ALLOWED,
+//         "Cannot cancel the event as it has already started or finished."
+//       );
+//     } else if (timeDiffer < eightHours) {
+//       return response(
+//         responseEnum.Error,
+//         statusCodeEnum.HTTP_METHOD_NOT_ALLOWED,
+//         "Cannot cancel the event as it starts in less than 8 hours."
+//       );
+//     }
+//     const userEvent = await UserEvent.findOneAndUpdate(
+//       { eventId, userId },
+//       { status: "canceled" },
+//       { new: true }
+//     );
+//     if (!userEvent) {
+//       return response(
+//         responseEnum.Error,
+//         statusCodeEnum.HTTP_NOT_FOUND,
+//         responseEnum.NotFound
+//       );
+//     }
+//     return response(
+//       responseEnum.Success,
+//       statusCodeEnum.HTTP_OK,
+//       responseEnum.Deleted
+//     );
+//   } catch (error) {
+//     return errorHandler(error);
+//   }
+// }
 
 async function getList() {
   try {
@@ -213,8 +213,8 @@ async function getList() {
 const eventService = {
   insertEvent,
   eventJoin,
-  latestEvents,
-  eventCancel,
+  // latestEvents,
+  // eventCancel,
   getList,
 };
 module.exports = { eventService };

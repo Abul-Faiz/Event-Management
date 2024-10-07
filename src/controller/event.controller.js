@@ -25,20 +25,20 @@ async function joinEvent(req, res) {
   res.json(result);
 }
 
-async function getUserEvents(req, res) {
-  // #swagger.tags = ['Event']
-  // #swagger.summary = 'Fetch user past, current, and future events API'
-  const result = await eventService.latestEvents(req.params.userId);
-  res.json(result);
-}
+// async function getUserEvents(req, res) {
+//   // #swagger.tags = ['Event']
+//   // #swagger.summary = 'Fetch user past, current, and future events API'
+//   const result = await eventService.latestEvents(req.params.userId);
+//   res.json(result);
+// }
 
-async function cancelEvent(req, res) {
-  // #swagger.tags = ['Event']
-  // #swagger.summary = 'cancel event API'
-  const { eventId, userId } = req.query;
-  const result = await eventService.eventCancel(eventId, userId);
-  res.json(result);
-}
+// async function cancelEvent(req, res) {
+//   // #swagger.tags = ['Event']
+//   // #swagger.summary = 'cancel event API'
+//   const { eventId, userId } = req.query;
+//   const result = await eventService.eventCancel(eventId, userId);
+//   res.json(result);
+// }
 
 async function getAllUser(req, res) {
   // #swagger.tags = ['Event']
