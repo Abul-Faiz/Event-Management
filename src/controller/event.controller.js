@@ -50,8 +50,8 @@ async function getAllUser(req, res) {
 const eventController = {
   createEvent,
   joinEvent,
-  getUserEvents,
-  cancelEvent,
+  // getUserEvents,
+  // cancelEvent,
   getAllUser,
 };
 module.exports = { eventController };
