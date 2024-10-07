@@ -3,9 +3,7 @@ const User = require("../model/user.model");
 const { statusCodeEnum } = require("../helper/status.enum");
 const { responseEnum } = require("../helper/response.enum");
 const { response } = require("../helper/response.helper");
-const { errorHandler } = require("../helper/errorHandler.helper");
-const { pagination } = require("../helper/common.helper");
-const mongoose = require("mongoose");
+const { pagination, convertToObjectId } = require("../helper/common.helper");
 
 async function getAll(pageNumber, pageSize, name = "") {
   pageNumber = pageNumber || 1;
@@ -18,19 +16,16 @@ async function getAll(pageNumber, pageSize, name = "") {
 }
 
 async function getById(id) {
-  const objectId = new mongoose.Types.ObjectId(id);
-  return await User.findOne({ _id: objectId });
+  return await User.findOne({ _id: convertToObjectId(id) });
 }
 
 async function updateProfile(id, userData) {
-    const objectId = new mongoose.Types.ObjectId(id);
-    await User.updateOne({ _id: objectId }, userData);
-    return response(responseEnum.Updated, statusCodeEnum.HTTP_CREATED);
+  await User.updateOne({ _id: convertToObjectId(id) }, userData);
+  return response(responseEnum.Updated, statusCodeEnum.HTTP_CREATED);
 }
 
 async function deleteUser(id) {
-  const objectId = new mongoose.Types.ObjectId(id);
-  await User.deleteOne({ _id: objectId });
+  await User.deleteOne({ _id: convertToObjectId(id) });
   return response(responseEnum.Deleted, statusCodeEnum.HTTP_OK);
 }
 

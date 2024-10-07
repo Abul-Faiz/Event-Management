@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Portfolio",
-    "description": "Event Management",
+    "title": "Book Club Platform",
+    "description": "Users can buy or read books on the platform, and participate in group discussions about the books and authors.",
     "contact": {
       "name": "API Support",
       "url": "localhost:3000",
@@ -34,7 +34,166 @@
     "application/json"
   ],
   "paths": {
-    "/getAllUser": {
+    "/auth/signUp": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "SignUp API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "user or admin can signUp here",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "example": "Abul Faiz"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "abulfaiz428@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "Login@123"
+                },
+                "role": {
+                  "type": "string",
+                  "example": "ADMIN"
+                },
+                "favoriteGenres": {
+                  "type": "array",
+                  "example": [
+                    "Action",
+                    "Sci-Fi"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Login API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User or Admin can login here",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "jay@gmail.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "Login@123"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/auth/requestPassword": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Password request API via Email",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "example": "abulfaiz428@gmail.com"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/auth/resetPassword": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "summary": "Reset Password API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "User or Admin can reset password here",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "example": "any"
+                },
+                "newPassword": {
+                  "type": "string",
+                  "example": "Login@123#"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/user/getAllUser": {
       "get": {
         "tags": [
           "Profile"
@@ -65,7 +224,7 @@
         }
       }
     },
-    "/getById/{userId}": {
+    "/user/getById/{userId}": {
       "get": {
         "tags": [
           "Profile"
@@ -87,7 +246,7 @@
         }
       }
     },
-    "/userUpdate/{userId}": {
+    "/user/userUpdate/{userId}": {
       "put": {
         "tags": [
           "Profile"
@@ -149,7 +308,7 @@
         }
       }
     },
-    "/deleteUser/{userId}": {
+    "/user/deleteUser/{userId}": {
       "delete": {
         "tags": [
           "Profile"
@@ -167,6 +326,249 @@
         "responses": {
           "200": {
             "description": "OK"
+          }
+        }
+      }
+    },
+    "/book/book-List": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Get all books",
+        "description": "",
+        "parameters": [
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "author",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/book/bookById/{id}": {
+      "get": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Get book by id",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/event/createEvent": {
+      "post": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "create events",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Event object",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "eventName": {
+                  "type": "string",
+                  "example": "Event Management"
+                },
+                "description": {
+                  "type": "string",
+                  "example": "A small mini project with proper base setup"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/event/joinEvent": {
+      "post": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Join event",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "eventId",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/event/eventListUser/{id}": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "Fetch user past, current, and future events API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/event/cancelEvent": {
+      "put": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "cancel event API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          },
+          {
+            "name": "eventId",
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "userId",
+            "in": "query",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/event/getAllUser": {
+      "get": {
+        "tags": [
+          "Event"
+        ],
+        "summary": "get all user API",
+        "description": "",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
           }
         }
       }

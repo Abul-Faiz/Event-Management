@@ -2,19 +2,14 @@ const express = require("express");
 const app = express();
 const dotenv = require("dotenv");
 const { databaseConnection } = require("./src/config/database");
-const authRoutes = require("./src/router/user.route");
-const eventRoutes = require("./src/router/event.route");
-const userRoutes = require("./src/router/user.route");
+const { ApiRoutes } = require("./src/middleware/routes");
 const swaggerUi = require("swagger-ui-express");
 const { ConnectionStringVerification } = require("./src/config/database");
 const swaggerDocs = require("./src/docs/swagger-output.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(express.json());
 dotenv.config();
-
-app.use(authRoutes);
-app.use(eventRoutes);
-app.use(userRoutes);
+ApiRoutes(app);
 
 app.get("/health", ConnectionStringVerification, (req, res) => {
   res.status(200).json({

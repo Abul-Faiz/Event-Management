@@ -58,7 +58,7 @@ async function passwordRequest(req, res) {
 async function resetPassword(req, res) {
   /*
      #swagger.tags = ['Authentication']
-     #swagger.summary = 'Reset password API'
+     #swagger.summary = 'Reset Password API'
      #swagger.parameters['body'] = {
      in : 'body',
      description : 'User or Admin can reset password here',
