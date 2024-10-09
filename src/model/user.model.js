@@ -5,20 +5,19 @@ const userSchema = mongoose.Schema(
   {
     name: {
       type: String,
-      required: [true, "name is required"],
+      required: true,
     },
     email: {
       type: String,
-      required: [true, "email is required"],
+      required: true,
       unique: true,
     },
     password: {
       type: String,
-      required: [true, "password is required"],
+      required: true,
     },
     profilePicture: {
       type: String,
-      default: "Abul Faiz.jpg",
     },
     favoriteGenres: {
       type: [String],
@@ -28,6 +27,20 @@ const userSchema = mongoose.Schema(
       type: String,
       enum: ["ADMIN", "USER"],
       default: "USER",
+    },
+    bio: {
+      type: String,
+    },
+    currentRead: {
+      type: String,
+    },
+    level: {
+      type: Number,
+      default: 1,
+    },
+    status: {
+      type: Number,
+      default: 1, // 0: delete, 1:active, 2: Blocked
     },
     resetPasswordToken: {
       type: String,

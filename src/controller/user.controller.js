@@ -27,9 +27,10 @@ async function userUpdate(req, res) {
       schema : {
           name: "Abul Faiz",
           email: "abulfaiz428@gmail.com",
-          password: "Login@123",
-          role: "ADMIN",
+          currentRead: "To Kill a Mockingbird",
           favoriteGenres: ["Action", "Sci-Fi"],
+          bio: "Tell me about yourself",
+          profilePicture: "default.png"
       }
 }
   */

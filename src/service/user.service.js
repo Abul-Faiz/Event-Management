@@ -25,7 +25,7 @@ async function updateProfile(id, userData) {
 }
 
 async function deleteUser(id) {
-  await User.deleteOne({ _id: convertToObjectId(id) });
+  await User.updateOne({ _id: convertToObjectId(id) }, { $set: { status: 0 } });
   return response(responseEnum.Deleted, statusCodeEnum.HTTP_OK);
 }
 

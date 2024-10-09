@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require('cors')
 const dotenv = require("dotenv");
 const { databaseConnection } = require("./src/config/database");
 const { ApiRoutes } = require("./src/middleware/routes");
@@ -8,6 +9,7 @@ const { ConnectionStringVerification } = require("./src/config/database");
 const swaggerDocs = require("./src/docs/swagger-output.json");
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use(express.json());
+app.use(cors());
 dotenv.config();
 ApiRoutes(app);
 

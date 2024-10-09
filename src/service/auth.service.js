@@ -9,8 +9,8 @@ const { sendPasswordResetEmail } = require("../utils/email");
 
 async function signUp(reqData) {
   try {
-    const { name, email, password, role, favoriteGenres } = reqData;
-    const newUser = new User({ name, email, password, role, favoriteGenres });
+    const { name, email, password, role } = reqData;
+    const newUser = new User({ name, email, password, role });
     await newUser.save();
     return response(
       responseEnum.SignUp,
@@ -43,10 +43,18 @@ async function login(LoginData) {
     }
     const payload = { _id: user._id, role: user.role };
     const token = createToken(payload);
+    if (user.status === 0) {
+      return response(
+        responseEnum.AccountDisabled,
+        statusCodeEnum.HTTP_UNAUTHORIZED,
+        responseEnum.Error
+      );
+    }
     return response(responseEnum.Saved, statusCodeEnum.HTTP_OK, {
       message: responseEnum.Success,
       token: token,
       expiresIn: process.env.EXPIRES_IN,
+      _id: user._id,
     });
   } catch (error) {
     return errorHandler(error);

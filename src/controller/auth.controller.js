@@ -6,14 +6,13 @@ async function register(req, res) {
       #swagger.summary = "SignUp API"
       #swagger.parameters['body'] = {
       in : 'body',
-      description : "user or admin can signUp here",
+      description : "USER or ADMIN can signUp here",
       required : true,
       schema : {
           name: "Abul Faiz",
           email: "abulfaiz428@gmail.com",
           password: "Login@123",
-          role: "ADMIN",
-          favoriteGenres: ["Action", "Sci-Fi"],
+          role: "USER",
       }
 }
   */
