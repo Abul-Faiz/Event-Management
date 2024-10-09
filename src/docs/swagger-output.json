@@ -14,7 +14,7 @@
     },
     "version": "1.0.0"
   },
-  "host": "http://13.200.229.129:3000",
+  "host": "13.200.229.129:3000",
   "basePath": "/",
   "schemes": "['http','https']",
   "securityDefinitions": {
