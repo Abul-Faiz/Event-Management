@@ -11,7 +11,10 @@ async function getAll(pageNumber, pageSize, name = "") {
   const skip = (pageNumber - 1) * pageSize;
   const filter = name ? { name: { $regex: new RegExp(name, "i") } } : {};
   const totalCount = await User.find(filter).countDocuments();
-  const data = await User.find(filter).skip(skip).limit(pageSize);
+  const data = await User.find(filter)
+    .select("-password")
+    .skip(skip)
+    .limit(pageSize);
   return pagination(data, pageNumber, pageSize, totalCount);
 }
 
