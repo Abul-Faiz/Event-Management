@@ -17,7 +17,7 @@ const doc = {
     },
     version: "1.0.0",
   },
-  host: process.env.BASE_URL,
+  host: `${process.env.BASE_URL}`,
   schemes: process.env.PROTOCOL,
   consumes: ["application/json"],
   produces: ["application/json"],
