@@ -18,26 +18,32 @@ async function createBook(insertData) {
   }
 }
 
-async function getAll(pageNumber, pageSize, query = {}) {
+async function getAll(pageNumber, pageSize, search, genres) {
   try {
     pageNumber = Number(pageNumber) || 1;
     pageSize = Number(pageSize) || 10;
     const skip = (pageNumber - 1) * pageSize;
-    let searchQuery = {};
-    if (query.title) {
-      searchQuery.title = { $regex: query.title, $options: "i" };
+    const searchQuery = {};
+    if (genres && Array.isArray(genres) && genres.length > 0) {
+      searchQuery.genres = { $in: genres };
     }
-    if (query.author) {
-      searchQuery.author = { $regex: query.author, $options: "i" };
+    if (search) {
+      const titleOrAuthorSearch = {
+        $or: [
+          { title: { $regex: new RegExp(search, "i") } },  
+          { author: { $regex: new RegExp(search, "i") } }   
+        ]
+      };
+      if (Object.keys(searchQuery).length > 0) {
+        searchQuery.$and = [
+          searchQuery,              
+          titleOrAuthorSearch       
+        ];
+      } else {
+        Object.assign(searchQuery, titleOrAuthorSearch);
+      }
     }
-    if (
-      query.genres &&
-      Array.isArray(query.genres) &&
-      query.genres.length > 0
-    ) {
-      searchQuery.genres = { $in: query.genres };
-    }
-    const totalCount = await books.find(searchQuery).countDocuments();
+    const totalCount = await books.countDocuments(searchQuery);
     const data = await books.find(searchQuery).skip(skip).limit(pageSize);
     const result = pagination(data, pageNumber, pageSize, totalCount);
     return response(responseEnum.Success, statusCodeEnum.HTTP_OK, result);

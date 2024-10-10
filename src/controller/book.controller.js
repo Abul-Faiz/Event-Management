@@ -22,8 +22,8 @@ async function insertBook(req, res) {
 async function bookList(req, res) {
   // #swagger.tags = ["Books"]
   // #swagger.summary = "Get all books"
-  const { pageNumber, pageSize, query } = req.query;
-  const result = await bookService.getAll(pageNumber, pageSize, query);
+  const { pageNumber, pageSize, search, genres } = req.query;
+  const result = await bookService.getAll(pageNumber, pageSize, search, genres);
   return res.send(result);
 }
 
