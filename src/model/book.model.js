@@ -21,6 +21,10 @@ const bookSchema = mongoose.Schema(
       type: [String],
       required: true,
     },
+    status: {
+      type: Number,
+      default: 1,
+    },
   },
   {
     versionKey: false,

@@ -30,15 +30,12 @@ async function getAll(pageNumber, pageSize, search, genres) {
     if (search) {
       const titleOrAuthorSearch = {
         $or: [
-          { title: { $regex: new RegExp(search, "i") } },  
-          { author: { $regex: new RegExp(search, "i") } }   
-        ]
+          { title: { $regex: new RegExp(search, "i") } },
+          { author: { $regex: new RegExp(search, "i") } },
+        ],
       };
       if (Object.keys(searchQuery).length > 0) {
-        searchQuery.$and = [
-          searchQuery,              
-          titleOrAuthorSearch       
-        ];
+        searchQuery.$and = [searchQuery, titleOrAuthorSearch];
       } else {
         Object.assign(searchQuery, titleOrAuthorSearch);
       }
@@ -63,5 +60,26 @@ async function getById(id) {
     return errorHandler(error);
   }
 }
-const bookService = { createBook, getAll, getById };
+
+async function update(id, data) {
+  try {
+    await books.updateOne({ id: convertToObjectId(id) }, data);
+    return response(responseEnum.Updated, statusCodeEnum.HTTP_OK);
+  } catch (error) {
+    return errorHandler(error);
+  }
+}
+
+async function bookDelete(id) {
+  try {
+    await books.updateOne(
+      { id: convertToObjectId(id) },
+      { $set: { status: 0 } }
+    );
+    return response(responseEnum.Deleted, statusCodeEnum.HTTP_OK);
+  } catch (error) {
+    return errorHandler(error);
+  }
+}
+const bookService = { createBook, getAll, getById, update, bookDelete };
 module.exports = { bookService };
