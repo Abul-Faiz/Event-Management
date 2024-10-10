@@ -6,32 +6,44 @@ const { statusCodeEnum } = require("../helper/status.enum");
 const { errorHandler } = require("../helper/errorHandler.helper");
 
 async function createBook(insertData) {
-  await new books(insertData).save();
-  return response(
-    responseEnum.Success,
-    statusCodeEnum.HTTP_CREATED,
-    responseEnum.Created
-  );
+  try {
+    await new books(insertData).save();
+    return response(
+      responseEnum.Success,
+      statusCodeEnum.HTTP_CREATED,
+      responseEnum.Created
+    );
+  } catch (error) {
+    return errorHandler(error);
+  }
 }
 
 async function getAll(pageNumber, pageSize, query = {}) {
-  pageNumber = Number(pageNumber) || 1;
-  pageSize = Number(pageSize) || 10;
-  const skip = (pageNumber - 1) * pageSize;
-  let searchQuery = {};
-  if (query.title) {
-    searchQuery.title = { $regex: query.title, $options: "i" };
+  try {
+    pageNumber = Number(pageNumber) || 1;
+    pageSize = Number(pageSize) || 10;
+    const skip = (pageNumber - 1) * pageSize;
+    let searchQuery = {};
+    if (query.title) {
+      searchQuery.title = { $regex: query.title, $options: "i" };
+    }
+    if (query.author) {
+      searchQuery.author = { $regex: query.author, $options: "i" };
+    }
+    if (
+      query.genres &&
+      Array.isArray(query.genres) &&
+      query.genres.length > 0
+    ) {
+      searchQuery.genres = { $in: query.genres };
+    }
+    const totalCount = await books.find(searchQuery).countDocuments();
+    const data = await books.find(searchQuery).skip(skip).limit(pageSize);
+    const result = pagination(data, pageNumber, pageSize, totalCount);
+    return response(responseEnum.Success, statusCodeEnum.HTTP_OK, result);
+  } catch (error) {
+    return errorHandler(error);
   }
-  if (query.author) {
-    searchQuery.author = { $regex: query.author, $options: "i" };
-  }
-  if (query.genres && Array.isArray(query.genres) && query.genres.length > 0) {
-    searchQuery.genres = { $in: query.genres };
-  }
-  const totalCount = await books.find(searchQuery).countDocuments();
-  const data = await books.find(searchQuery).skip(skip).limit(pageSize);
-  const result = pagination(data, pageNumber, pageSize, totalCount);
-  return response(responseEnum.Success, statusCodeEnum.HTTP_OK, result);
 }
 
 async function getById(id) {
