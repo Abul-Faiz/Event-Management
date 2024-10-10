@@ -15,7 +15,6 @@ async function createBook(insertData) {
 }
 
 async function getAll(pageNumber, pageSize, query = {}) {
-  try {
     pageNumber = Number(pageNumber) || 1;
     pageSize = Number(pageSize) || 10;
     const skip = (pageNumber - 1) * pageSize;
@@ -37,9 +36,6 @@ async function getAll(pageNumber, pageSize, query = {}) {
     const data = await books.find(searchQuery).skip(skip).limit(pageSize);
     const result = pagination(data, pageNumber, pageSize, totalCount);
     return response(responseEnum.Success, statusCodeEnum.HTTP_OK, result);
-  } catch (error) {
-    return errorHandler(error);
-  }
 }
 
 async function getById(id) {
