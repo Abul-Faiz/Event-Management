@@ -5,7 +5,7 @@
     "description": "Users can buy or read books on the platform, and participate in group discussions about the books and authors.",
     "contact": {
       "name": "API Support",
-      "url": "localhost:3000",
+      "url": "http://13.200.229.129:3000/",
       "email": "abulfaiz428@gmail.com"
     },
     "author": {
@@ -14,7 +14,7 @@
     },
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "13.200.229.129:3000",
   "basePath": "/",
   "schemes": "['http','https']",
   "securityDefinitions": {
