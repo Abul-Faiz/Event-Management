@@ -6,16 +6,12 @@ const { statusCodeEnum } = require("../helper/status.enum");
 const { errorHandler } = require("../helper/errorHandler.helper");
 
 async function createBook(insertData) {
-  try {
     await new books(insertData).save();
     return response(
       responseEnum.Success,
       statusCodeEnum.HTTP_CREATED,
       responseEnum.Created
     );
-  } catch (error) {
-    return errorHandler(error);
-  }
 }
 
 async function getAll(pageNumber, pageSize, query = {}) {
