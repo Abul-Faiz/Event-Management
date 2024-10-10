@@ -14,7 +14,7 @@
     },
     "version": "1.0.0"
   },
-  "host": "13.200.229.129:3000",
+  "host": "localhost:3000",
   "basePath": "/",
   "schemes": "['http','https']",
   "securityDefinitions": {
@@ -45,7 +45,7 @@
           {
             "name": "body",
             "in": "body",
-            "description": "user or admin can signUp here",
+            "description": "USER or ADMIN can signUp here",
             "required": true,
             "schema": {
               "type": "object",
@@ -64,17 +64,7 @@
                 },
                 "role": {
                   "type": "string",
-                  "example": "ADMIN"
-                },
-                "favoriteGenres": {
-                  "type": "array",
-                  "example": [
-                    "Action",
-                    "Sci-Fi"
-                  ],
-                  "items": {
-                    "type": "string"
-                  }
+                  "example": "USER"
                 }
               }
             }
@@ -276,13 +266,9 @@
                   "type": "string",
                   "example": "abulfaiz428@gmail.com"
                 },
-                "password": {
+                "currentRead": {
                   "type": "string",
-                  "example": "Login@123"
-                },
-                "role": {
-                  "type": "string",
-                  "example": "ADMIN"
+                  "example": "To Kill a Mockingbird"
                 },
                 "favoriteGenres": {
                   "type": "array",
@@ -293,6 +279,14 @@
                   "items": {
                     "type": "string"
                   }
+                },
+                "bio": {
+                  "type": "string",
+                  "example": "Tell me about yourself"
+                },
+                "profilePicture": {
+                  "type": "string",
+                  "example": "default.png"
                 }
               }
             }
@@ -330,6 +324,54 @@
         }
       }
     },
+    "/book/insert-book": {
+      "post": {
+        "tags": [
+          "Books"
+        ],
+        "summary": "Create a new book",
+        "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Book details",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "title": {
+                  "type": "string",
+                  "example": "Lord of the Rings"
+                },
+                "author": {
+                  "type": "string",
+                  "example": "Michael Horton"
+                },
+                "year": {
+                  "type": "number",
+                  "example": 1987
+                },
+                "genres": {
+                  "type": "array",
+                  "example": [
+                    "action",
+                    "fantasy"
+                  ],
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/book/book-List": {
       "get": {
         "tags": [
@@ -349,12 +391,7 @@
             "type": "string"
           },
           {
-            "name": "title",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "author",
+            "name": "query",
             "in": "query",
             "type": "string"
           }
@@ -384,118 +421,6 @@
         "responses": {
           "200": {
             "description": "OK"
-          }
-        }
-      }
-    },
-    "/event/createEvent": {
-      "post": {
-        "tags": [
-          "Event"
-        ],
-        "summary": "create events",
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "description": "Event object",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "eventName": {
-                  "type": "string",
-                  "example": "Event Management"
-                },
-                "description": {
-                  "type": "string",
-                  "example": "A small mini project with proper base setup"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/event/joinEvent": {
-      "post": {
-        "tags": [
-          "Event"
-        ],
-        "summary": "Join event",
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          },
-          {
-            "name": "eventId",
-            "in": "query",
-            "type": "string"
-          },
-          {
-            "name": "userId",
-            "in": "query",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
-          }
-        }
-      }
-    },
-    "/event/getAllUser": {
-      "get": {
-        "tags": [
-          "Event"
-        ],
-        "summary": "get all user API",
-        "description": "",
-        "parameters": [
-          {
-            "name": "Authorization",
-            "in": "header",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "403": {
-            "description": "Forbidden"
-          },
-          "404": {
-            "description": "Not Found"
           }
         }
       }
